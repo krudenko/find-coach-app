@@ -27,7 +27,11 @@ export default {
       id: userId,
     });
   },
-  async loadCoaches(context) {
+  async loadCoaches(context, payload) {
+    if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+      return;
+    }
+
     // Get coaches from Firebase
     const response = await fetch(
       `https://vue-find-coach-cea44-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`
@@ -35,7 +39,7 @@ export default {
     const responseData = await response.json();
 
     if (!response.ok) {
-      const error = new Error(responseData.message || 'Failed to fetch!');
+      const error = new Error(responseData.message || 'Failed to fetch coaches.');
       throw error;
     }
 
@@ -54,5 +58,6 @@ export default {
     }
 
     context.commit('setCoaches', coaches);
+    context.commit('setFetchTimestamp');
   },
 };
