@@ -1,26 +1,28 @@
 <template>
-    <the-navigation></the-navigation>
+    <the-header></the-header>
     <router-view></router-view>
 </template>
 
 <script>
-import TheNavigation from './components/layout/TheNavigation.vue';
+import TheHeader from './components/layout/TheHeader.vue';
 
 export default {
     components: {
-        TheNavigation
+        TheHeader
     }
 }
 
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
 * {
     box-sizing: border-box;
 }
 
 html {
-    font-family: sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 body {
