@@ -1,19 +1,36 @@
 <template>
-    <the-header></the-header>
-    <router-view v-slot="slotProps">
-        <transition name="route" mode="out-in">
-            <component :is="slotProps.Component"></component>
-        </transition>
-    </router-view>
+  <the-header></the-header>
+  <router-view v-slot="slotProps">
+    <transition name="route" mode="out-in">
+      <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
 </template>
 
 <script>
 import TheHeader from './components/layout/TheHeader.vue';
 
 export default {
-    components: {
-        TheHeader
+  components: {
+    TheHeader
+  },
+  computed: {
+    didAutoLogout() {
+      return this.$store.getters.didAutoLogout;
     }
+  },
+  created() {
+    // Check if user is already logged in and it's data is stored in local storage
+    // If yes -> use this data to login
+    this.$store.dispatch('tryLogin');
+  },
+  watch: {
+    didAutoLogout(curValue, oldValue) {
+      if (curValue && curValue !== oldValue) {
+        this.$router.replace('/coaches');
+      }
+    }
+  }
 }
 
 </script>
@@ -22,15 +39,15 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-    font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
-    margin: 0;
+  margin: 0;
 }
 
 .route-enter-from {

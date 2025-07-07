@@ -29,9 +29,10 @@ export default {
   },
   async fetchRequests(context) {
     const coachId = context.rootGetters.userId;
+    const token = context.rootGetters.token;
     // Get requests from Firebase
     const response = await fetch(
-      `https://vue-find-coach-cea44-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json`
+      `https://vue-find-coach-cea44-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json?auth=${token}`
     );
     const responseData = await response.json();
 
